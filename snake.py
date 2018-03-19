@@ -111,7 +111,7 @@ def draw_snake(snake):
 
 def draw_score(snake):
     score = len(snake.tail) - 4
-    win.write("Score: " + str(score), x=res_x / 2, y=0)
+    win.write("Score: " + str(score), x=(res_x / 2) - 4, y=0)
 
 
 def pause():
@@ -129,7 +129,7 @@ def main():
     snake = Snake()
     fruit_list = [Fruit()]
     new_fruit = fruit_list[-1]
-    win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors))
+    win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
     
     direction = 'e'
 
@@ -147,7 +147,7 @@ def main():
         if len(fruit_list) <= 3 and random.random() >= 0.99:
             fruit_list.append(Fruit())
             new_fruit = fruit_list[-1]
-            win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors))
+            win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
         
         draw_score(snake)
 
