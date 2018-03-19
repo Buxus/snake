@@ -173,7 +173,7 @@ def main():
         else:
             snake.move(direction)
 
-        clock.tick(30)
+        clock.tick(20)
 
 
 if __name__ == '__main__':
