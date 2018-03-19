@@ -138,6 +138,9 @@ def main():
     draw_snake(snake)
     # draw_fruit(win, fruit_list) 
     draw_score(snake)
+    message = '~~~Snake~~~'
+    win.write(message, x=(res_x/2) - (len(message)/2), y=res_y - 1, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
+    
     pause()
     
     while 1:
