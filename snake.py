@@ -7,6 +7,7 @@ import pygame
 from pygame.locals import *
 import pygcurse
 import random
+import string
 
 res_x = 60
 res_y = 40
@@ -20,7 +21,7 @@ movements = {
     'w': lambda coord: (x_pos(coord) - 1, y_pos(coord)),
     's': lambda coord: (x_pos(coord), y_pos(coord) + 1)
 }
-fruit_chars = ['a', 'b', 'c', '!', '$', '%', '^', '&', '*', '(', ')']
+fruit_chars = list(string.printable)
 colors = list(pygcurse.colornames.keys())
 
 class Snake:
@@ -76,7 +77,7 @@ class Fruit:
     def __init__(self):
         self.x = int(random.random() * (res_x - 2)) + 1
         self.y = int(random.random() * (res_y - 2)) + 1
-        self.char = fruit_chars[int(random.random() * len(fruit_chars))]
+        self.char = random.choice(fruit_chars)
 
 
 def x_pos(coord):
