@@ -11,6 +11,9 @@ import random
 res_x = 60
 res_y = 40
 
+win = pygcurse.PygcurseWindow(res_x, res_y)
+win.font = pygame.font.Font(None, 28)
+    
 movements = {
     'n': lambda coord: (x_pos(coord), y_pos(coord) - 1),
     'e': lambda coord: (x_pos(coord) + 1, y_pos(coord)),
@@ -18,7 +21,7 @@ movements = {
     's': lambda coord: (x_pos(coord), y_pos(coord) + 1)
 }
 fruit_chars = ['a', 'b', 'c', '!', '$', '%', '^', '&', '*', '(', ')']
-
+colors = list(pygcurse.colornames.keys())
 
 class Snake:
     """Documentation for Snake
@@ -31,14 +34,13 @@ class Snake:
         self.head_color = 'red'
         self.tail_color = 'green'
 
-    def move(self, win, direction='e', grow=False):
+    def move(self, direction='e', grow=False):
         head_pos = self.head
         self.head = movements[direction](head_pos)
         if grow == False:
             last_pos = self.tail[-1]
             self.tail = [head_pos] + self.tail[0:-1]
-            win.cursor = last_pos
-            win.write(' ')
+            win.write(' ', x=x_pos(last_pos), y=y_pos(last_pos))
         else:
             self.tail = [head_pos] + self.tail
 
@@ -62,6 +64,7 @@ class Snake:
         i = 0
         for fruit in fruit_list:
             if self.head == (fruit.x, fruit.y):
+                win.write(' ', x=fruit_list[i].x, y=fruit_list[i].y)
                 del(fruit_list[i])
                 return True
             i += 1
@@ -84,7 +87,7 @@ def y_pos(coord):
     return coord[1]
 
 
-def draw_map(win):
+def draw_map():
     wall_char = '#'
     win.drawline((0, 0), (res_x - 1, 0), char=wall_char)
     win.drawline((0, 0), (0, res_y - 1), char=wall_char)
@@ -92,7 +95,7 @@ def draw_map(win):
     win.drawline((0, res_y - 1), (res_x - 1, res_y - 1), char=wall_char)
 
 
-def draw_snake(win, snake):
+def draw_snake(snake):
     # draw head
     win.write('@', x=x_pos(snake.head), y=y_pos(snake.head), fgcolor=snake.head_color)
 
@@ -101,12 +104,12 @@ def draw_snake(win, snake):
         win.write('O', x=x_pos(segment), y=y_pos(segment), fgcolor=snake.tail_color)
 
 
-def draw_fruit(win, fruit_list):
-    for fruit in fruit_list:
-        win.write(fruit.char, x=fruit.x, y=fruit.y)
+# def draw_fruit(win, fruit_list):
+#     for fruit in fruit_list:
+#         win.write(fruit.char, x=fruit.x, y=fruit.y)
 
 
-def draw_score(win, snake):
+def draw_score(snake):
     score = len(snake.tail) - 4
     win.write("Score: " + str(score), x=res_x / 2, y=0)
 
@@ -120,32 +123,33 @@ def pause():
 
 def main():
     pygame.init()
-    win = pygcurse.PygcurseWindow(res_x, res_y)
-    win.font = pygame.font.Font(None, 28)
     
     clock = pygame.time.Clock()
 
     snake = Snake()
     fruit_list = [Fruit()]
-
+    new_fruit = fruit_list[-1]
+    win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors))
+    
     direction = 'e'
 
-    draw_map(win)
-    draw_snake(win, snake)
-    draw_fruit(win, fruit_list)
-    draw_score(win, snake)
+    draw_map()
+    draw_snake(snake)
+    # draw_fruit(win, fruit_list) 
+    draw_score(snake)
     pause()
     
     while 1:
         if snake.died():
+            print(len(snake.tail) - 4)
             break
         
-        if random.random() >= 0.98:
+        if len(fruit_list) <= 3 and random.random() >= 0.99:
             fruit_list.append(Fruit())
+            new_fruit = fruit_list[-1]
+            win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors))
         
-        #draw_snake(win, snake)
-        draw_fruit(win, fruit_list)
-        draw_score(win, snake)
+        draw_score(snake)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:
@@ -161,11 +165,11 @@ def main():
                     pause()
                     
         if snake.ate(fruit_list):
-            snake.move(win, direction, grow=True)
+            snake.move(direction, grow=True)
         else:
-            snake.move(win, direction)
+            snake.move(direction)
 
-        clock.tick(600)
+        clock.tick(30)
 
 
 if __name__ == '__main__':
