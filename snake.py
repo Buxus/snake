@@ -14,7 +14,7 @@ res_y = 40
 
 win = pygcurse.PygcurseWindow(res_x, res_y)
 win.font = pygame.font.Font(None, 28)
-    
+
 movements = {
     'n': lambda coord: (x_pos(coord), y_pos(coord) - 1),
     'e': lambda coord: (x_pos(coord) + 1, y_pos(coord)),
@@ -124,50 +124,50 @@ def pause():
 
 def main():
     pygame.init()
-    
+
     clock = pygame.time.Clock()
 
     snake = Snake()
     fruit_list = [Fruit()]
     new_fruit = fruit_list[-1]
     win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
-    
+
     direction = 'e'
 
     draw_map()
     draw_snake(snake)
-    # draw_fruit(win, fruit_list) 
+    # draw_fruit(win, fruit_list)
     draw_score(snake)
     message = '~~~Snake~~~'
     win.write(message, x=(res_x/2) - (len(message)/2), y=res_y - 1, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
-    
+
     pause()
-    
+
     while 1:
         if snake.died():
             print(len(snake.tail) - 4)
             break
-        
+
         if len(fruit_list) <= 3 and random.random() >= 0.99:
             fruit_list.append(Fruit())
             new_fruit = fruit_list[-1]
             win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
-        
+
         draw_score(snake)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:
-                if event.key == K_UP:
+                if event.key == K_UP and direction != 's':
                     direction = 'n'
-                elif event.key == K_DOWN:
+                elif event.key == K_DOWN and direction != 'n':
                     direction = 's'
-                elif event.key == K_LEFT:
+                elif event.key == K_LEFT and direction != 'e':
                     direction = 'w'
-                elif event.key == K_RIGHT:
+                elif event.key == K_RIGHT and direction != 'w':
                     direction = 'e'
                 elif event.key == K_p:
                     pause()
-                    
+
         if snake.ate(fruit_list):
             snake.move(direction, grow=True)
         else:
