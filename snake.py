@@ -12,6 +12,9 @@ import string
 res_x = 60
 res_y = 40
 
+center_x = res_x / 2
+center_y = res_y / 2
+
 win = pygcurse.PygcurseWindow(res_x, res_y)
 win.font = pygame.font.Font(None, 28)
 
@@ -30,8 +33,8 @@ class Snake:
     """
 
     def __init__(self):
-        self.head = (30, 20)
-        self.tail = [(29, 20), (28, 20), (27, 20), (26, 20)]
+        self.head = (center_x + 2, center_y)
+        self.tail = [(center_x + 1, center_y), (center_x, center_y), (center_x -1, center_y), (center_x - 2, center_y)]
         self.head_color = 'red'
         self.tail_color = 'green'
 
