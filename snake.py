@@ -172,6 +172,8 @@ def main():
                     pause()
                 else:
                     pass
+                #only parse a single keystroke per tick.
+                break
 
         if snake.ate(fruit_list):
             snake.move(direction, grow=True)
