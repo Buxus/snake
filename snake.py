@@ -170,6 +170,8 @@ def main():
                     direction = 'e'
                 elif event.key == K_p:
                     pause()
+                else:
+                    pass
 
         if snake.ate(fruit_list):
             snake.move(direction, grow=True)
