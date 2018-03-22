@@ -34,7 +34,7 @@ class Snake:
 
     def __init__(self):
         self.head = (center_x + 2, center_y)
-        self.tail = [(center_x + 1, center_y), (center_x, center_y), (center_x -1, center_y), (center_x - 2, center_y)]
+        self.tail = [(center_x + 1, center_y), (center_x, center_y), (center_x - 1, center_y), (center_x - 2, center_y)]
         self.head_color = 'red'
         self.tail_color = 'green'
 
@@ -47,13 +47,13 @@ class Snake:
 
             # prevent snake from overwriting fruit that appear on top of snake
             if win.getchar(int(x_pos(last_pos)), int(y_pos(last_pos))) == 'O':
-                win.write(' ', x=x_pos(last_pos), y=y_pos(last_pos))
+                win.putchar(' ', x=x_pos(last_pos), y=y_pos(last_pos), bgcolor='black')
         else:
             self.tail = [head_pos] + self.tail
 
         # draw changed segments
-        win.write('@', x=x_pos(self.head), y=y_pos(self.head), fgcolor=self.head_color)
-        win.write('O', x=x_pos(self.tail[0]), y=y_pos(self.tail[0]), fgcolor=self.tail_color)
+        win.putchar('@', x=x_pos(self.head), y=y_pos(self.head), fgcolor=self.head_color)
+        win.putchar('O', x=x_pos(self.tail[0]), y=y_pos(self.tail[0]), fgcolor=self.tail_color)
 
     def died(self):
         head_pos_x = x_pos(self.head)
@@ -71,7 +71,7 @@ class Snake:
         i = 0
         for fruit in fruit_list:
             if self.head == (fruit.x, fruit.y):
-                win.write(' ', x=fruit_list[i].x, y=fruit_list[i].y)
+                win.putchar(' ', x=fruit_list[i].x, y=fruit_list[i].y, bgcolor='black')
                 del(fruit_list[i])
                 return True
             i += 1
@@ -87,11 +87,11 @@ class Fruit:
 
 
 def x_pos(coord):
-    return coord[0]
+    return int(coord[0])
 
 
 def y_pos(coord):
-    return coord[1]
+    return int(coord[1])
 
 
 def draw_map():
@@ -104,21 +104,21 @@ def draw_map():
 
 def draw_snake(snake):
     # draw head
-    win.write('@', x=x_pos(snake.head), y=y_pos(snake.head), fgcolor=snake.head_color)
+    win.putchar('@', x=x_pos(snake.head), y=y_pos(snake.head), fgcolor=snake.head_color)
 
     # draw tail
     for segment in snake.tail:
-        win.write('O', x=x_pos(segment), y=y_pos(segment), fgcolor=snake.tail_color)
+        win.putchar('O', x=x_pos(segment), y=y_pos(segment), fgcolor=snake.tail_color)
 
 
 # def draw_fruit(win, fruit_list):
 #     for fruit in fruit_list:
-#         win.write(fruit.char, x=fruit.x, y=fruit.y)
+#         win.putchar(fruit.char, x=fruit.x, y=fruit.y)
 
 
 def draw_score(snake):
     score = len(snake.tail) - 4
-    win.write("Score: " + str(score), x=(res_x / 2) - 4, y=0)
+    win.putchars("Score: " + str(score), x=int((res_x / 2) - 4), y=0)
 
 
 def pause():
@@ -136,7 +136,7 @@ def main():
     snake = Snake()
     fruit_list = [Fruit()]
     new_fruit = fruit_list[-1]
-    win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
+    win.putchar(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
 
     direction = 'e'
 
@@ -145,7 +145,7 @@ def main():
     # draw_fruit(win, fruit_list)
     draw_score(snake)
     message = '~~~Snake~~~'
-    win.write(message, x=(res_x/2) - (len(message)/2), y=res_y - 1, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
+    win.putchars(message, x=int((res_x/2) - (len(message)/2)), y=int(res_y - 1), fgcolor=random.choice(colors), bgcolor=random.choice(colors))
 
     pause()
 
@@ -157,7 +157,7 @@ def main():
         if len(fruit_list) <= 3 and random.random() >= 0.99:
             fruit_list.append(Fruit())
             new_fruit = fruit_list[-1]
-            win.write(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
+            win.putchar(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
 
         draw_score(snake)
 
