@@ -8,12 +8,17 @@ from pygame.locals import *
 import pygcurse
 import random
 import string
+import sys
 
-res_x = 60
-res_y = 40
+if len(sys.argv) == 1:
+    res_x = 60
+    res_y = 40
+else:
+    res_x = int(sys.argv[1])
+    res_y = int(sys.argv[2])
 
-center_x = res_x / 2
-center_y = res_y / 2
+center_x = int(res_x / 2)
+center_y = int(res_y / 2)
 
 win = pygcurse.PygcurseWindow(res_x, res_y)
 win.font = pygame.font.Font(None, 28)
