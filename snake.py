@@ -13,9 +13,12 @@ import sys
 if len(sys.argv) == 1:
     res_x = 60
     res_y = 40
+    fps = 20
 else:
     res_x = int(sys.argv[1])
     res_y = int(sys.argv[2])
+    fps = int(sys.argv[3])
+        
 
 center_x = int(res_x / 2)
 center_y = int(res_y / 2)
@@ -133,10 +136,10 @@ def pause():
                 if event.key == K_p:
                     return None
                 elif event.key == K_q:
-                    quit_game()
+                    quit_game(0)
 
-def quit_game():
-    print(len(snake.tail) - 4)
+def quit_game(score):
+    print(score)
     sys.exit()
 
 def main():
@@ -185,7 +188,7 @@ def main():
                 elif event.key == K_p:
                     pause()
                 elif event.key == K_q:
-                    quit_game()
+                    quit_game(len(snake.tail) - 4)
                 else:
                     pass
                 #only parse a single keystroke per tick.
@@ -196,7 +199,7 @@ def main():
         else:
             snake.move(direction)
 
-        clock.tick(20)
+        clock.tick(fps)
 
 
 if __name__ == '__main__':
