@@ -129,9 +129,15 @@ def draw_score(snake):
 def pause():
     while 1:
         for event in pygame.event.get():
-            if event.type == KEYDOWN and event.key == K_p:
-                return None
+            if event.type == KEYDOWN:
+                if event.key == K_p:
+                    return None
+                elif event.key == K_q:
+                    quit_game()
 
+def quit_game():
+    print(len(snake.tail) - 4)
+    sys.exit()
 
 def main():
     pygame.init()
@@ -178,6 +184,8 @@ def main():
                     direction = 'e'
                 elif event.key == K_p:
                     pause()
+                elif event.key == K_q:
+                    quit_game()
                 else:
                     pass
                 #only parse a single keystroke per tick.
