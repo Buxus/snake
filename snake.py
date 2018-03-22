@@ -136,9 +136,9 @@ def pause():
                 if event.key == K_p:
                     return None
                 elif event.key == K_q:
-                    quit_game(0)
+                    quit_game()
 
-def quit_game(score):
+def quit_game():
     print(score)
     sys.exit()
 
@@ -163,10 +163,12 @@ def main():
 
     pause()
 
+    global score
+    
     while 1:
+        score = len(snake.tail) - 4
         if snake.died():
-            print(len(snake.tail) - 4)
-            break
+            quit_game()
 
         if len(fruit_list) <= 3 and random.random() >= 0.99:
             fruit_list.append(Fruit())
@@ -188,7 +190,7 @@ def main():
                 elif event.key == K_p:
                     pause()
                 elif event.key == K_q:
-                    quit_game(len(snake.tail) - 4)
+                    quit_game()
                 else:
                     pass
                 #only parse a single keystroke per tick.
