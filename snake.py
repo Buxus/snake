@@ -118,7 +118,7 @@ def draw_snake(snake):
 
 def draw_score(snake):
     score = len(snake.tail) - 4
-    win.putchars("Score: " + str(score), x=int((res_x / 2) - 4), y=0)
+    win.putchars("Score: " + str(score), x=int(center_x - 4), y=0)
 
 
 def pause():
@@ -145,7 +145,7 @@ def main():
     # draw_fruit(win, fruit_list)
     draw_score(snake)
     message = '~~~Snake~~~'
-    win.putchars(message, x=int((res_x/2) - (len(message)/2)), y=int(res_y - 1), fgcolor=random.choice(colors), bgcolor=random.choice(colors))
+    win.putchars(message, x=int(center_x - (len(message)/2)), y=int(res_y - 1), fgcolor=random.choice(colors), bgcolor=random.choice(colors))
 
     pause()
 
