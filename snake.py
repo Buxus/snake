@@ -20,7 +20,7 @@ else:
 center_x = int(res_x / 2)
 center_y = int(res_y / 2)
 
-win = pygcurse.PygcurseWindow(res_x, res_y)
+win = pygcurse.PygcurseWindow(res_x, res_y, 'Snake!')
 win.font = pygame.font.Font(None, 28)
 
 movements = {
