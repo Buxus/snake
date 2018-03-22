@@ -44,7 +44,10 @@ class Snake:
         if grow == False:
             last_pos = self.tail[-1]
             self.tail = [head_pos] + self.tail[0:-1]
-            win.write(' ', x=x_pos(last_pos), y=y_pos(last_pos))
+
+            # prevent snake from overwriting fruit that appear on top of snake
+            if win.getchar(int(x_pos(last_pos)), int(y_pos(last_pos))) == 'O':
+                win.write(' ', x=x_pos(last_pos), y=y_pos(last_pos))
         else:
             self.tail = [head_pos] + self.tail
 
