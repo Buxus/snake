@@ -55,9 +55,9 @@ class Snake:
     def died(self):
         head_pos_x = x_pos(self.head)
         head_pos_y = y_pos(self.head)
-        if head_pos_x == 0 or head_pos_x == res_x:
+        if head_pos_x == 0 or head_pos_x == res_x - 1:
             return True
-        elif head_pos_y == 0 or head_pos_y == res_y:
+        elif head_pos_y == 0 or head_pos_y == res_y - 1:
             return True
         elif self.head in self.tail:
             return True
