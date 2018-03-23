@@ -32,7 +32,7 @@ movements = {
     'w': lambda coord: (x_pos(coord) - 1, y_pos(coord)),
     's': lambda coord: (x_pos(coord), y_pos(coord) + 1)
 }
-fruit_chars = list(string.printable)
+fruit_chars = list(string.ascii_letters + string.punctuation + string.digits)
 colors = list(pygcurse.colornames.keys())
 
 class Snake:
@@ -206,3 +206,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
