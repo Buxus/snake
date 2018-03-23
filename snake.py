@@ -11,9 +11,9 @@ import string
 import sys
 
 if len(sys.argv) == 1:
-    res_x = 60
-    res_y = 40
-    fps = 20
+    res_x = 25
+    res_y = 25
+    fps = 10
 else:
     res_x = int(sys.argv[1])
     res_y = int(sys.argv[2])
@@ -144,7 +144,9 @@ def quit_game():
 
 def main():
     pygame.init()
-
+    global score
+    score = 0
+    
     clock = pygame.time.Clock()
 
     snake = Snake()
@@ -162,15 +164,13 @@ def main():
     win.putchars(message, x=int(center_x - (len(message)/2)), y=int(res_y - 1), fgcolor=random.choice(colors), bgcolor=random.choice(colors))
 
     pause()
-
-    global score
     
     while 1:
         score = len(snake.tail) - 4
         if snake.died():
             quit_game()
 
-        if len(fruit_list) <= 3 and random.random() >= 0.99:
+        if (len(fruit_list) <= 2 and random.random() >= 0.99) or (len(fruit_list) == 0 and random.random() >= 0.95):
             fruit_list.append(Fruit())
             new_fruit = fruit_list[-1]
             win.putchar(new_fruit.char, x=new_fruit.x, y=new_fruit.y, fgcolor=random.choice(colors), bgcolor=random.choice(colors))
